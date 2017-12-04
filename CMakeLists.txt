@@ -14,7 +14,7 @@ HunterGate(
     SHA1 "1b94f895831f76e5a63e0537dd366ae142543c02"
 )
 
-project(leveldb VERSION 0.1.0 LANGUAGES C CXX)
+project(leveldb VERSION 1.20 LANGUAGES C CXX)
 
 option(LEVELDB_BUILD_TESTS "Build LevelDB's unit tests" ON)
 option(LEVELDB_BUILD_BENCHMARKS "Build LevelDB's benchmarks" ON)
@@ -42,6 +42,11 @@ if(LEVELDB_WITH_SNAPPY)
 endif()
 
 include(CheckSymbolExists)
+foreach(file_operation read write flush)
+  set(func "f${file_operation}_unlocked")
+  string(TOUPPER "HAVE_${func}" config_var)
+  check_symbol_exists("${func}" "unistd.h" ${config_var})
+endforeach()
 check_symbol_exists(fdatasync "unistd.h" HAVE_FDATASYNC)
 
 configure_file(

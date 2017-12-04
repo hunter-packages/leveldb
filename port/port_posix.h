@@ -41,6 +41,21 @@
 #define fdatasync fsync
 #endif  // !HAVE_FDATASYNC
 
+#if !HAVE_FREAD_UNLOCKED
+// Use fread() on platforms without fread_unlocked()
+#define fread_unlocked fread
+#endif  // !HAVE_FREAD_UNLOCKED
+
+#if !HAVE_FWRITE_UNLOCKED
+// Use fwrite() on platforms without fwrite_unlocked()
+#define fwrite_unlocked fwrite
+#endif  // !HAVE_FWRITE_UNLOCKED
+
+#if !HAVE_FFLUSH_UNLOCKED
+// Use fflush() on platforms without fflush_unlocked()
+#define fflush_unlocked fflush
+#endif  // !HAVE_FFLUSH_UNLOCKED
+
 namespace leveldb {
 namespace port {
 
